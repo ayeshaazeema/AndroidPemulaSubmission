@@ -10,4 +10,4 @@ data class Phone(
     var price: String = "",
     var description: String = "",
     var image: Int = 0
-): Parcelable
+) : Parcelable

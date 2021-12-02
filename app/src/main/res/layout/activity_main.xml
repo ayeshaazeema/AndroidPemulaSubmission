@@ -19,6 +19,7 @@
             android:id="@+id/ivLogoMain"
             android:layout_width="@dimen/_150dp"
             android:layout_height="@dimen/_50dp"
+            android:contentDescription="@string/txt_imageview"
             app:layout_constraintBottom_toBottomOf="@id/fabMain"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/fabMain"

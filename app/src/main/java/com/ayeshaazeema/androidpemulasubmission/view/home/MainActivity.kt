@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ayeshaazeema.androidpemulasubmission.R
 import com.ayeshaazeema.androidpemulasubmission.data.adapter.PhoneAdapter
@@ -16,7 +15,7 @@ import com.ayeshaazeema.androidpemulasubmission.databinding.ActivityMainBinding
 import com.ayeshaazeema.androidpemulasubmission.view.about.AboutActivity
 import com.ayeshaazeema.androidpemulasubmission.view.detail.DetailActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var mainBinding: ActivityMainBinding
 
@@ -32,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         rvMain.setHasFixedSize(true)
 
         list.addAll(DataPhone.listPhone)
+        mainBinding.fabMain.setOnClickListener(this)
 
         addRecyclerViewList()
     }
@@ -48,28 +48,25 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        setMode(item.itemId)
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun setMode(selectedMode: Int) {
-        when (selectedMode) {
-            R.id.actionAbout -> {
-                intent = Intent(this, AboutActivity::class.java)
-                startActivity(intent)
-            }
-        }
-    }
-
     private fun setSelectedItem(phone: Phone) {
         val intentDetail = Intent(this@MainActivity, DetailActivity::class.java)
         intentDetail.putExtra(DetailActivity.EXTRA_USER, phone)
         startActivity(intentDetail)
+    }
+
+    companion object {
+        fun getLaunchService(from: Context) =
+            Intent(from, MainActivity::class.java).apply {
+                addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK
+                            or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                )
+            }
+    }
+
+    override fun onClick(p0: View) {
+        when (p0.id) {
+            R.id.fabMain -> startActivity(Intent(AboutActivity.getLaunchService(this)))
+        }
     }
 }
